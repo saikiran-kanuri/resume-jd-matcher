@@ -7,6 +7,7 @@ extraction) or embedding.py (also cross-text, but for the similarity
 score rather than skill-level detail).
 """
 import re
+from backend.services.pdf_parser import detect_sections
 from backend.services.skill_extraction import (
     extract_skills,
     extract_skill_frequencies,
@@ -165,3 +166,92 @@ def get_priority_bucket(score: float) -> str:
     if score >= medium_threshold:
         return "medium"
     return "low"
+
+# Maps a skill's JD section category to the human-readable clause
+# inserted into suggestion messages (Section 5.2 of the project doc).
+SECTION_NOTES = {
+    "required": " (listed under 'Requirements')",
+    "preferred": " (listed under 'Preferred Qualifications')",
+    "none": "",
+}
+
+MISSING_SKILL_TEMPLATE = (
+    "Your resume doesn't mention '{skill}', which appears {freq} time(s) "
+    "in the job description{section_note}. Consider adding it if you have "
+    "relevant experience."
+)
+
+
+def build_suggestion_message(skill: str, jd_frequency: int, jd_text: str) -> str:
+    """
+    Builds the human-readable suggestion message for a single missing
+    skill, per the 'missing_skill' template in Section 5.2 of the
+    project doc. Reuses get_skill_section_category so the message's
+    section_note stays consistent with what compute_priority_score
+    used to score the same skill.
+    """
+    section_category = get_skill_section_category(jd_text, skill)
+    section_note = SECTION_NOTES[section_category]
+
+    return MISSING_SKILL_TEMPLATE.format(
+        skill=skill,
+        freq=jd_frequency,
+        section_note=section_note,
+    )
+
+# Maps each checkable section to (trigger keywords, display theme, resume
+# section key from Phase 1's detect_sections). Add new sections here —
+# the function below loops over this table rather than hardcoding checks.
+SECTION_TRIGGERS = {
+    "Projects": {
+        "keywords": [
+            "portfolio", "github", "side project", "side projects",
+            "personal project", "personal projects", "open-source", "open source",
+        ],
+        "theme": "project experience",
+        "resume_key": "projects",
+    },
+    "Skills": {
+        "keywords": [
+            "tech stack", "technologies", "tools", "proficient in",
+            "technical skills", "programming languages",
+        ],
+        "theme": "specific technical skills",
+        "resume_key": "skills",
+    },
+}
+
+MISSING_SECTION_TEMPLATE = (
+    "The JD emphasizes {theme} but your resume has no dedicated "
+    "'{section}' section. Consider adding one."
+)
+
+
+def get_missing_section_suggestions(resume_text: str, jd_text: str) -> list[str]:
+    """
+    Structural suggestions (Section 5.2's 'missing_section' template),
+    independent of any specific skill. Loops over SECTION_TRIGGERS,
+    checking each section's keywords against the JD and its presence
+    in the resume (via Phase 1's detect_sections). Currently covers
+    Projects and Skills; Experience/Summary excluded — see design
+    discussion in project history for why those two lack a reliable,
+    low-noise JD signal.
+    """
+    jd_lower = jd_text.lower()
+    resume_sections = detect_sections(resume_text)
+
+    suggestions = []
+    for section_name, config in SECTION_TRIGGERS.items():
+        mentions_section = any(
+            keyword in jd_lower for keyword in config["keywords"]
+        )
+        has_section = bool(resume_sections.get(config["resume_key"], "").strip())
+
+        if mentions_section and not has_section:
+            suggestions.append(
+                MISSING_SECTION_TEMPLATE.format(
+                    theme=config["theme"],
+                    section=section_name,
+                )
+            )
+    return suggestions

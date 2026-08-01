@@ -11,6 +11,8 @@ from backend.services.matching import (
     get_skill_section_category,
     compute_priority_score,
     get_priority_bucket,
+    build_suggestion_message,
+    get_missing_section_suggestions,
 )
 
 
@@ -185,3 +187,78 @@ def test_priority_bucket_medium_for_score_in_middle_third():
 def test_priority_bucket_low_for_score_below_one_third_of_max():
     assert get_priority_bucket(0.4) == "low"
     assert get_priority_bucket(2.0) == "low"
+
+def test_missing_section_flagged_when_jd_wants_projects_but_resume_has_none():
+    jd = "We want to see your GitHub and a strong portfolio of side projects."
+    resume = "Experience\nSoftware Engineer at XYZ.\n\nSkills\nPython, Docker."
+
+    suggestions = get_missing_section_suggestions(resume, jd)
+
+    assert len(suggestions) == 1
+    assert "Projects" in suggestions[0]
+
+
+def test_missing_section_not_flagged_when_resume_has_projects_section():
+    jd = "We want to see your GitHub and a strong portfolio of side projects."
+    resume = (
+        "Experience\nSoftware Engineer at XYZ.\n\n"
+        "Projects\nBuilt a resume-JD matcher using sentence embeddings."
+    )
+
+    suggestions = get_missing_section_suggestions(resume, jd)
+
+    assert suggestions == []
+
+
+def test_missing_section_not_flagged_when_jd_does_not_mention_projects():
+    jd = "Looking for a backend engineer with strong Python and SQL skills."
+    resume = "Experience\nSoftware Engineer at XYZ."
+
+    suggestions = get_missing_section_suggestions(resume, jd)
+
+    assert suggestions == []
+
+
+def test_build_suggestion_message_matches_template_exactly():
+    jd = "Requirements:\nKubernetes\nKubernetes Kubernetes Kubernetes"
+    message = build_suggestion_message("Kubernetes", jd_frequency=4, jd_text=jd)
+
+    expected = (
+        "Your resume doesn't mention 'Kubernetes', which appears 4 time(s) "
+        "in the job description (listed under 'Requirements'). Consider "
+        "adding it if you have relevant experience."
+    )
+    assert message == expected
+
+def test_missing_section_flagged_when_jd_wants_skills_but_resume_has_none():
+    jd = "Our tech stack includes Python and React."
+    resume = "Experience\nSoftware Engineer at XYZ.\n\nProjects\nBuilt a tool."
+
+    suggestions = get_missing_section_suggestions(resume, jd)
+
+    assert len(suggestions) == 1
+    assert "Skills" in suggestions[0]
+
+
+def test_missing_section_not_flagged_when_resume_has_skills_section():
+    jd = "Our tech stack includes Python and React."
+    resume = (
+        "Experience\nSoftware Engineer at XYZ.\n\n"
+        "Skills\nPython, React, Docker."
+    )
+
+    suggestions = get_missing_section_suggestions(resume, jd)
+
+    assert suggestions == []
+
+
+def test_missing_section_flags_both_projects_and_skills_when_both_apply():
+    jd = "Show us your GitHub portfolio and tell us your tech stack."
+    resume = "Experience\nSoftware Engineer at XYZ."
+
+    suggestions = get_missing_section_suggestions(resume, jd)
+
+    assert len(suggestions) == 2
+    combined = " ".join(suggestions)
+    assert "Projects" in combined
+    assert "Skills" in combined
