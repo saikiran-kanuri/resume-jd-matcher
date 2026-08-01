@@ -1,0 +1,26 @@
+Job description
+Job Summary:\ The people here at Apple don t just build products we craft the kind of wonder that s revolutionized entire industries.
+It s the diversity of those people and their ideas that supports the innovation that runs through everything we do, from amazing technology to industry-leading environmental efforts.
+Join Apple, and help us leave the world better than we found it.
+\ \ \ The Artifical Intelligence and Data platform team provides data services, analytics, reporting, and data science solutions to Apple s business groups, including Retail, iTunes, Marketing, AppleCare, Operations, Finance, and Sales.
+These solutions are built on top of an end-to-end machine learning platform with sophisticated AI capabilities.
+This position is an extraordinary opportunity for a competent, experienced, and results-oriented machine learning engineer to define and build some of the best-in-class machine learning solutions and tools for Apple.
+\ , description:As a Machine Learning Engineer, you will work on building intelligent systems to democratize AI across a wide range of solutions within Apple.
+You will drive the development and deployment of state-of-the-art AI models and systems that directly impact the capabilities and performance of Apple s products and services.
+You will implement robust, scalable ML infrastructure, including data storage, processing, and model serving components, to support seamless integration of AI/ML models into production environments.
+You will develop novel feature engineering, data augmentation, prompt engineering and fine-tuning frameworks that achieve optimal performance on specific tasks and domains.
+You will design and implement automated ML pipelines for data preprocessing, feature engineering, model training, hyper-parameter tuning, and model evaluation, enabling rapid experimentation and iteration.
+You will also implement advanced model compression and optimization techniques to reduce the resource footprint of language models while preserving their performance.
+\ Have continuous focus to Brainstorm and Design various POCs using AI/ML Services for new or existing enterprise problems.
+You should be able to (i) understand a business challenge, (ii) Collaborate with business and other cross functional teams (ii) design a statistical or deep learning solution to find the needed answer to it, (iii) developing it by yourself or guide another person to do it, (iv) deliver the outcome into production, (v) Keep a good governance of your work.
+There are massive opportunities for you deliver impactful influences to Apple.
+\ , standard
+
+Role: Machine Learning Engineer
+Industry Type: Consumer Electronics & Appliances
+Department: Data Science & Analytics
+Employment Type: Full Time, Permanent
+Role Category: Data Science & Machine Learning
+Education
+UG: Any Graduate
+PG: Any Postgraduate

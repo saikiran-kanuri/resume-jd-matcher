@@ -1,0 +1,15 @@
+Title: Software Development Engineer I (Backend)
+Description:
+Join our backend infrastructure team as a Software Development Engineer I. We are seeking a highly motivated early-career developer to design, build, and maintain robust APIs that power our cloud-based applications. You will be tasked with writing clean, scalable Java code, optimizing database queries, and ensuring our services operate smoothly under high load. Our engineers take ownership of their services from local development through to cloud deployment. You will be expected to leverage object-oriented programming principles and core data structures to solve complex backend challenges.Requirements:
+
+B.Tech or equivalent degree in Computer Science.
+
+Strong programming fundamentals in Java and Python.
+
+Solid understanding of Data Structures, Algorithms, and Object-Oriented Programming (OOPS).
+
+Experience building REST APIs and working with relational databases using SQL.
+
+Familiarity with cloud platforms such as AWS (EC2, S3) and containerization.
+
+Experience using Git/GitHub for version control.

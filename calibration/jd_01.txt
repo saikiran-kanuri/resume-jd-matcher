@@ -1,0 +1,16 @@
+Title: Junior Machine Learning Engineer
+Description:
+We are an innovative AI startup looking for a Junior Machine Learning Engineer to help us build and optimize our next-generation computer vision and deep learning models. In this role, you will work closely with senior researchers to preprocess large datasets, train deep neural networks, and deploy models into production environments. You will be responsible for evaluating model performance and implementing state-of-the-art architectures for image and video analysis. The ideal candidate is a recent Computer Science graduate who is passionate about applied AI and has hands-on experience with multimodal architectures. You will collaborate with cross-functional teams to integrate these models into our core platform.
+Requirements:
+
+Bachelor's degree in Computer Science or a related field (or expected completion soon).
+
+0-2 years of experience or strong academic projects in machine learning and deep learning.
+
+Proficiency in Python and working knowledge of PyTorch or TensorFlow.
+
+Familiarity with convolutional neural networks (CNNs) and transformer models.
+
+Experience with data preprocessing, computer vision libraries (like OpenCV), and model fine-tuning.
+
+Strong problem-solving skills and the ability to work in a collaborative environment
