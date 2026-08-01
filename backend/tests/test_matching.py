@@ -13,6 +13,7 @@ from backend.services.matching import (
     get_priority_bucket,
     build_suggestion_message,
     get_missing_section_suggestions,
+    generate_suggestions,
 )
 
 
@@ -262,3 +263,64 @@ def test_missing_section_flags_both_projects_and_skills_when_both_apply():
     combined = " ".join(suggestions)
     assert "Projects" in combined
     assert "Skills" in combined
+
+def test_generate_suggestions_puts_structural_suggestions_first():
+    jd = "Show us your GitHub portfolio. Looking for a Python developer."
+    resume = "Experience\nSoftware Engineer at XYZ."
+
+    suggestions = generate_suggestions(resume, jd)
+
+    assert suggestions[0]["type"] == "missing_section"
+
+
+def test_generate_suggestions_ranks_missing_skills_by_priority_score():
+    jd = """
+Requirements:
+Kubernetes
+Kubernetes Kubernetes Kubernetes
+
+Nice to have: communication skills.
+"""
+    resume = "Experience\nSoftware Engineer at XYZ.\n\nProjects\nBuilt a tool."
+
+    suggestions = generate_suggestions(resume, jd)
+
+    skill_suggestions = [s for s in suggestions if s["type"] == "missing_skill"]
+    assert skill_suggestions[0]["skill"] == "Kubernetes"
+    assert skill_suggestions[0]["priority"] == "high"
+
+
+def test_generate_suggestions_respects_max_suggestions_cap():
+    jd = """
+Requirements:
+Python, Docker, Kubernetes, AWS, React, SQL, Git, Java, Linux, Go
+"""
+    resume = "Experience\nSoftware Engineer at XYZ."
+
+    suggestions = generate_suggestions(resume, jd, max_suggestions=3)
+
+    assert len(suggestions) == 3
+
+
+def test_generate_suggestions_returns_empty_list_when_nothing_missing():
+    jd = "Looking for a Python developer."
+    resume = (
+        "Experience\nSoftware Engineer at XYZ.\n\n"
+        "Skills\nPython.\n\nProjects\nBuilt a tool."
+    )
+
+    suggestions = generate_suggestions(resume, jd)
+
+    assert suggestions == []
+
+
+def test_generate_suggestions_message_shape_matches_expected_schema():
+    jd = "Requirements:\nKubernetes\nKubernetes Kubernetes"
+    resume = "Experience\nSoftware Engineer at XYZ.\n\nProjects\nBuilt a tool.\n\nSkills\nPython."
+
+    suggestions = generate_suggestions(resume, jd)
+    skill_suggestion = next(s for s in suggestions if s["type"] == "missing_skill")
+
+    assert set(skill_suggestion.keys()) == {
+        "type", "skill", "priority", "jd_frequency", "reason", "message"
+    }

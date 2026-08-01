@@ -255,3 +255,56 @@ def get_missing_section_suggestions(resume_text: str, jd_text: str) -> list[str]
                 )
             )
     return suggestions
+
+DEFAULT_MAX_SUGGESTIONS = 5
+
+
+def generate_suggestions(
+    resume_text: str, jd_text: str, max_suggestions: int = DEFAULT_MAX_SUGGESTIONS
+) -> list[dict]:
+    """
+    Orchestrates all of Phase 3b's signals into the final ranked
+    suggestion list (Section 5.3 of the project doc): structural
+    suggestions (missing_section) first, since a JD-emphasized but
+    entirely absent resume section is treated as inherently important,
+    followed by missing-skill suggestions filling any remaining slots,
+    ranked by priority_score (highest first).
+
+    Returns at most max_suggestions items, not a flat dump of every
+    missing skill — per Phase 3b's plan in Section 3.
+    """
+    suggestions: list[dict] = []
+
+    # Structural suggestions first — always included, not scored
+    # against skills, since an entirely missing section the JD cares
+    # about is a distinct, high-value category of feedback.
+    for message in get_missing_section_suggestions(resume_text, jd_text):
+        suggestions.append({
+            "type": "missing_section",
+            "priority": "high",
+            "message": message,
+        })
+
+    # Missing-skill suggestions, ranked by priority_score descending.
+    missing_skills = get_missing_skills_with_frequency(resume_text, jd_text)
+
+    scored_skills = []
+    for skill, jd_frequency in missing_skills.items():
+        score = compute_priority_score(skill, jd_frequency, jd_text)
+        scored_skills.append((skill, jd_frequency, score))
+
+    scored_skills.sort(key=lambda item: item[2], reverse=True)
+
+    remaining_slots = max_suggestions - len(suggestions)
+    for skill, jd_frequency, score in scored_skills[:max(remaining_slots, 0)]:
+        section_category = get_skill_section_category(jd_text, skill)
+        suggestions.append({
+            "type": "missing_skill",
+            "skill": skill,
+            "priority": get_priority_bucket(score),
+            "jd_frequency": jd_frequency,
+            "reason": f"Mentioned {jd_frequency} time(s), section: {section_category}",
+            "message": build_suggestion_message(skill, jd_frequency, jd_text),
+        })
+
+    return suggestions[:max_suggestions]
