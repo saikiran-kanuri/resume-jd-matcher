@@ -3,7 +3,7 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
-*.pdf
+
 *.pdf        # don't commit real resumes/PII
 !backend/tests/fixtures/*.pdf
 models_cache/
