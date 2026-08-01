@@ -1,0 +1,69 @@
+Job description
+About this role:
+Wells Fargo is seeking a Senior Software Engineer.
+In this role, you will:
+Involve in end-to-end lifecycle of product/application development, analyse highly complex business requirements, design and write technical specifications to build or modernize enterprise applications.
+Design and develop scalable, secure, and highly available full-stack applications using modern architectures and cloud-native technologies.
+Provide coding direction to less experienced staff and develop highly complex original code.
+Act as an expert technical resource for modelling, simulation, analytics, and AI-driven automation initiatives.
+Design and implement AI-powered features such as intelligent search, chatbot integrations, recommendation engines, knowledge assistants, and automated issue triaging.
+Leverage Generative AI tools (GitHub Copilot, Azure OpenAI, Microsoft Copilot) to improve engineering productivity and development efficiency.
+Build AI-assisted workflows for vulnerability analysis, incident management, operational intelligence, and application support processes.
+Develop and integrate RESTful APIs, microservices, event-driven services, and AI services into enterprise applications.
+Verify program logic by overseeing the preparation of test data, testing, and debugging of programs.
+Implement observability, monitoring, logging, and AI-driven operational insights across applications.
+Ensure applications adhere to Secure Development Lifecycle (SDL), Responsible AI principles, security, compliance, and governance requirements.
+Lead projects, allocate and manage resources, and mentor less experienced engineers.
+Drive DevOps and MLOps practices for application deployment, AI model integration, monitoring, and lifecycle management.
+Support vulnerability management platforms and develop automation to improve security operations efficiency.
+Required Qualifications:
+4+ years of Software Engineering experience, or equivalent demonstrated through one or a combination of the following: work experience, training, military experience, education
+Desired Qualifications:
+Core Development Skills
+5+ years of application design, development, and implementation experience.
+5+ years of Java and/or .NET development experience.
+5+ years of Angular, React, JavaScript, and modern web application development.
+5+ years of creating and/or integrating RESTful/SOAP web services.
+3+ years of experience with Unix/Linux, Autosys, JavaScript, MVC, C#, SDL Tridion, and DXA.
+3+ years of RDBMS integration and development (SQL Server, Oracle) and Spring Boot with JPA/Hibernate.
+Strong experience with HTML5, CSS3, JavaScript, AJAX, and responsive web design.
+Experience with Node.js is a plus.
+Hands-on experience integrating AI/Generative AI services into enterprise applications.
+Experience with Azure OpenAI Service, Azure AI Services, Microsoft Copilot Studio, or similar AI platforms.
+Understanding of Large Language Models (LLMs), prompt engineering, Retrieval-Augmented Generation (RAG), embeddings, vector databases, and semantic search concepts.
+Experience building AI-powered assistants, chatbots, automated knowledge retrieval systems, or intelligent operational dashboards.
+Experience consuming AI APIs and integrating AI capabilities into web applications and backend services.
+Familiarity with GitHub Copilot, AI-assisted development practices, and developer productivity tools.
+Exposure to AI governance, Responsible AI principles, security, compliance, and risk management.
+Experience leveraging AI for vulnerability analysis, incident summarization, automated ticket classification, root cause analysis, or operational intelligence is highly desirable.
+Cloud, DevOps Security
+Experience with CI/CD pipelines using Jenkins, Gradle, SonarQube, GitHub Actions, or Azure DevOps.
+Understanding of cloud platforms such as Azure (preferred), AWS, or GCP.
+Exposure to containerization and orchestration technologies such as Docker and Kubernetes.
+Hands-on experience with Git and modern source control practices.
+Strong understanding of Secure Software Development Lifecycle (SSDLC/SDL).
+Experience with application security, vulnerability management, and secure coding practices.
+Familiarity with security scanning tools, SAST, DAST, dependency scanning, and vulnerability remediation processes.
+Data and Analytics
+Strong SQL skills and experience designing scalable database solutions.
+Knowledge of data analytics, reporting, and visualization solutions.
+Familiarity with vector databases, AI search technologies, and enterprise data integration is a plus.
+Job Expectations:
+Experience developing AI-enabled enterprise applications at scale.
+Strong exposure to Agile methodologies (Scrum, Kanban), DevOps, and MLOps practices.
+Development experience with multi-tier enterprise applications and microservices architecture.
+Experience building cloud-native applications and AI-integrated solutions.
+Strong communication, collaboration, and stakeholder management skills.
+Ability to lead technical discussions with architects, engineering leaders, and senior management.
+Experience working in Security Operations, Vulnerability Management, Risk Management, or Stability Operations environments.
+Microsoft Azure AI Engineer, Azure Developer, Azure Solutions Architect, Security Engineer, or related certifications are highly desirable.
+Experience with observability platforms such as App Insights, ELK, Grafana, Splunk, or Datadog is preferred.
+Exposure to Agile methodologies and JIRA for project tracking.
+Role: Blockchain Quality Assurance Engineer
+Industry Type: IT Services & Consulting
+Department: Engineering - Software & QA
+Employment Type: Full Time, Permanent
+Role Category: Quality Assurance and Testing
+Education
+UG: Any Graduate
+PG: Any Postgraduate

@@ -1,0 +1,48 @@
+Job description
+  
+
+Greetings from Surgevector.ai
+
+Job Title: AI/ML Engineer (Fresher)
+
+Location: Hyderabad
+
+Employment Type: Full-Time
+
+  
+
+Purpose of the Role
+
+
+
+We are looking for enthusiastic Computer Science graduates with a passion for Artificial Intelligence and Machine Learning. The candidate will work with experienced engineers to build AI-powered applications, develop ML models, integrate LLMs, and contribute to Platform based AI solutions.
+
+  
+
+Key Responsibilities
+
+Develop AI/ML applications under senior engineer guidance.
+Build and optimize machine learning models.
+Work on Generative AI, LLM, and RAG-based applications.
+Develop REST APIs to integrate AI models.
+Perform data preprocessing, feature engineering, and model evaluation.
+Build prompt engineering workflows for LLM applications.
+Assist in deploying AI models using cloud platforms.
+Participate in creating agents for code reviews and testing
+Write unit tests and maintain code quality with agents
+Continuously learn emerging AI technologies and frameworks.
+  
+
+Required Qualifications
+
+B.E./B.Tech in CSE or AIML
+CGPA: 7.5+ (Preferred)
+Strong programming fundamentals.
+Good problem-solving and analytical skills.
+Role: Software Development - Other
+Industry Type: Software Product
+Department: Engineering - Software & QA
+Employment Type: Full Time, Permanent
+Role Category: Software Development
+Education
+UG: B.Tech / B.E. in Computer Science and Engineering (CSE), Artificial Intelligence And Machine Learning
