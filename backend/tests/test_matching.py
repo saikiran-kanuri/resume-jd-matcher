@@ -55,3 +55,74 @@ def test_empty_resume_returns_all_jd_skills_as_missing():
 
     assert "Python" in result
     assert "Docker" in result
+
+from backend.services.matching import get_skill_section_category
+
+
+def test_skill_under_requirements_heading_is_required():
+    jd = """
+Requirements:
+Python, Docker, and Kubernetes experience needed.
+"""
+    assert get_skill_section_category(jd, "Python") == "required"
+
+
+def test_skill_under_preferred_heading_is_preferred():
+    jd = """
+Requirements:
+Python experience needed.
+Preferred Skills:
+Kubernetes experience is a plus.
+"""
+    assert get_skill_section_category(jd, "Kubernetes") == "preferred"
+
+
+def test_skill_with_no_recognized_section_is_none():
+    jd = """
+About the role:
+We use Python and Docker daily.
+"""
+    assert get_skill_section_category(jd, "Python") == "none"
+
+
+def test_alternate_required_heading_phrasings_are_recognized():
+    jd_minimum = """
+Minimum Qualifications
+Python experience required.
+"""
+    jd_required_skills = """
+Required Skills:
+Azure knowledge needed.
+"""
+    assert get_skill_section_category(jd_minimum, "Python") == "required"
+    assert get_skill_section_category(jd_required_skills, "Azure") == "required"
+
+
+def test_alternate_preferred_heading_phrasing_is_recognized():
+    jd = """
+Desired Qualifications:
+Kubernetes experience is a plus.
+"""
+    assert get_skill_section_category(jd, "Kubernetes") == "preferred"
+
+
+def test_heading_like_word_inside_a_sentence_is_not_misclassified():
+    # "requirements" appears inside a sentence here, not as its own
+    # heading line — it must NOT trigger a switch to the "required"
+    # section. Mirrors the same guard tested in test_pdf_parser.py.
+    jd = """
+About the role:
+We analyse highly complex business requirements as part of this role.
+Python experience is a plus.
+"""
+    assert get_skill_section_category(jd, "Python") == "none"
+
+
+def test_skill_in_both_required_and_preferred_resolves_to_required():
+    jd = """
+Requirements:
+Python experience needed.
+Preferred Skills:
+Python knowledge is also a plus, plus Docker.
+"""
+    assert get_skill_section_category(jd, "Python") == "required"
