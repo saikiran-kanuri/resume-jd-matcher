@@ -34,6 +34,16 @@ def get_missing_skills_with_frequency(resume_text: str, jd_text: str) -> dict[st
         for skill, count in jd_frequencies.items()
         if skill not in resume_skills
     }
+def get_matched_skills(resume_text: str, jd_text: str) -> set[str]:
+    """
+    Returns skills present in both the JD and the resume — the
+    complement of get_missing_skills_with_frequency's set difference.
+    Used for the API's 'matched_skills' field (Section 5.3), so a
+    caller can show what's already working, not just what's missing.
+    """
+    resume_skills = extract_skills(resume_text)
+    jd_skills = extract_skills(jd_text)
+    return resume_skills & jd_skills
 
 REQUIRED_HEADINGS = [
     "requirements",

@@ -8,6 +8,7 @@ text noise.
 """
 from backend.services.matching import (
     get_missing_skills_with_frequency,
+    get_matched_skills,
     get_skill_section_category,
     compute_priority_score,
     get_priority_bucket,
@@ -324,3 +325,20 @@ def test_generate_suggestions_message_shape_matches_expected_schema():
     assert set(skill_suggestion.keys()) == {
         "type", "skill", "priority", "jd_frequency", "reason", "message"
     }
+
+def test_matched_skills_returns_intersection_of_resume_and_jd_skills():
+    resume = "Experienced Python developer skilled in Docker and FastAPI."
+    jd = "Looking for a Python developer with Docker and Kubernetes experience."
+
+    result = get_matched_skills(resume, jd)
+
+    assert result == {"Python", "Docker"}
+
+
+def test_matched_skills_returns_empty_set_when_nothing_overlaps():
+    resume = "Skilled in FastAPI and pandas."
+    jd = "Looking for Kubernetes and AWS experience."
+
+    result = get_matched_skills(resume, jd)
+
+    assert result == set()
