@@ -5,7 +5,7 @@ We test against small inline strings rather than real resume/JD files —
 matcher correctness only depends on text content, not on where the text
 came from (mirrors the same decoupling rationale as pdf_parser.py).
 """
-
+import pytest
 from backend.services.skill_extraction import (
     extract_skills,
     extract_skill_frequencies,
@@ -81,8 +81,9 @@ def test_get_skill_type_returns_soft_for_soft_skill():
     assert get_skill_type("Leadership") == "soft"
 
 
-def test_get_skill_type_defaults_to_hard_for_unknown_skill():
-    assert get_skill_type("SomeSkillNotInTaxonomy") == "hard"
+def test_get_skill_type_raises_for_unknown_skill():
+    with pytest.raises(ValueError):
+        get_skill_type("SomeSkillNotInTaxonomy")
 
 
 def test_plural_acronym_forms_are_matched():
@@ -104,3 +105,7 @@ def test_architecture_names_are_recognized():
     assert "EfficientNet" in skills
     assert "ResNet" in skills
     assert "MobileNet" in skills
+def test_get_skill_type_is_case_insensitive():
+    assert get_skill_type("communication") == "soft"
+    assert get_skill_type("PYTHON") == "hard"
+    

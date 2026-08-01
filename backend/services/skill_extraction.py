@@ -105,11 +105,16 @@ def get_skill_type(skill_name: str) -> str:
     """
     Look up whether a canonical skill name is 'hard' or 'soft', per the
     taxonomy. Used by Phase 3b's priority formula (is_hard_skill).
-    Returns 'hard' as a safe default if the skill isn't found (shouldn't
-    normally happen since callers should only pass names this module
-    already returned).
+
+    Matching is case-insensitive against the taxonomy's canonical
+    names, since callers may not always preserve exact casing.
+
+    Raises ValueError if the skill isn't found in the taxonomy at all —
+    silently defaulting an unknown skill's type would let bugs (typos,
+    mismatched names) inflate or deflate priority scores unnoticed,
+    same reasoning as extract_text_from_pdf's ValueError in Phase 1.
     """
     for skill in _taxonomy:
-        if skill["name"] == skill_name:
-            return skill.get("type", "hard")
-    return "hard"
+        if skill["name"].lower() == skill_name.lower():
+            return skill["type"]
+    raise ValueError(f"Unknown skill: '{skill_name}' not found in taxonomy")

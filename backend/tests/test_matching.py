@@ -6,7 +6,12 @@ calibration files) so each test isolates one specific behavior of the
 set-difference + frequency-lookup logic, independent of real-world
 text noise.
 """
-from backend.services.matching import get_missing_skills_with_frequency
+from backend.services.matching import (
+    get_missing_skills_with_frequency,
+    get_skill_section_category,
+    compute_priority_score,
+    get_priority_bucket,
+)
 
 
 def test_skill_in_jd_but_not_resume_is_flagged_as_missing():
@@ -126,3 +131,57 @@ Preferred Skills:
 Python knowledge is also a plus, plus Docker.
 """
     assert get_skill_section_category(jd, "Python") == "required"
+
+def test_priority_score_is_high_for_frequent_required_hard_skill():
+    jd = """
+Requirements:
+Docker
+We need someone with Docker Docker Docker Docker experience.
+"""
+    score = compute_priority_score("Docker", jd_frequency=4, jd_text=jd)
+
+    assert score == 6.6
+
+
+def test_priority_score_is_low_for_rare_unlisted_soft_skill():
+    jd = "We value Communication in this role."
+
+    score = compute_priority_score("Communication", jd_frequency=1, jd_text=jd)
+
+    assert score == 0.4
+
+
+def test_priority_score_gives_partial_credit_for_preferred_section():
+    jd = """
+Preferred Qualifications:
+Kubernetes
+"""
+    score = compute_priority_score("Kubernetes", jd_frequency=1, jd_text=jd)
+
+    # freq: 1/5 * 2 = 0.4, section: preferred = 0.5 * 3 = 1.5, type: hard = 1 * 2 = 2
+    assert score == 3.9
+
+
+def test_priority_score_caps_frequency_contribution_at_five_mentions():
+    jd_low_freq = "Requirements:\nDocker\nDocker experience needed."
+    jd_high_freq = "Requirements:\nDocker\n" + "Docker " * 20
+
+    score_at_cap = compute_priority_score("Docker", jd_frequency=5, jd_text=jd_low_freq)
+    score_above_cap = compute_priority_score("Docker", jd_frequency=20, jd_text=jd_high_freq)
+
+    assert score_at_cap == score_above_cap
+
+
+def test_priority_bucket_high_for_score_at_or_above_two_thirds_of_max():
+    assert get_priority_bucket(6.6) == "high"
+    assert get_priority_bucket(4.6667) == "high"
+
+
+def test_priority_bucket_medium_for_score_in_middle_third():
+    assert get_priority_bucket(3.5) == "medium"
+    assert get_priority_bucket(2.3334) == "medium"
+
+
+def test_priority_bucket_low_for_score_below_one_third_of_max():
+    assert get_priority_bucket(0.4) == "low"
+    assert get_priority_bucket(2.0) == "low"
