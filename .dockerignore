@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+.git/
+.pytest_cache/
+frontend/
+calibration/
+*.md
+backend/tests/
