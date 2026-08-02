@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 
 from fastapi import FastAPI, UploadFile, Form, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pdfminer.pdfparser import PDFSyntaxError
 
 from backend.services.pdf_parser import extract_text_from_pdf
@@ -21,6 +22,17 @@ from backend.services.matching import (
 from backend.models.schemas import MatchResponse
 
 app = FastAPI(title="Resume-JD Match Scorer")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8501",  # local Streamlit dev
+        # production Streamlit URL goes here once the frontend is deployed (Phase 7, step 3)
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024  # 5MB
 
