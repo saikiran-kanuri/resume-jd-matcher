@@ -27,7 +27,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:8501",  # local Streamlit dev
-        # production Streamlit URL goes here once the frontend is deployed (Phase 7, step 3)
+        "https://resume-jd-matcher-e89zivspbgjmybcpalggwa.streamlit.app",  # production frontend
     ],
     allow_credentials=True,
     allow_methods=["*"],
